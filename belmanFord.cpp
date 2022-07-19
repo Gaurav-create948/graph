@@ -15,6 +15,7 @@
         that we do in (DAG) shortest path.
 
     Why (v-1) times because a simple path can only have (v-1) edges for (v) vertices
+    Also useful to find the negative cycle detection.
 
     Time complexity : O((v-1)*E)
     overall : O(V*E) 
