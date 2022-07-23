@@ -1,0 +1,101 @@
+So here i am going to write about a very important and tough topic which is graph and inside graph it took me almost 5 days to understand this algorithm.
+
+----> The topic is articulation point.
+
+There are 3 or many problems related to this one logic and topic :-
+
+1. Articulation point.
+2. Finding bridges.
+3. Tarjans algorithm. (for finding stronly connected components in a directed graph better that kruskals algorithm)
+
+
+Let's talk about articulation points.
+
+so the problem says that given an undirected graph and you have to find such vertices/points whose removal will create graph disconnected and will break the graph into 
+many components.
+
+Also can think this problem as Network suppose the graph is network of all devices connected to each other and every device is dependent on each other if one device get's disconnected all devices will get some issues.
+
+
+
+Let's make graph -- >
+
+	{0}===={1}====={3}
+		=	=
+		=	=
+		=	=
+	       {2}====={4}
+
+The adjacency list of the above graph will be :-
+
+0 : 1
+1 : 0 2 3
+2 : 1 4
+3 : 1 4
+
+
+so the question first comes to mind is how to solve this problem
+
+A naive approach will be to remove each and every vertex one by one and check if the graph is still connected or not.
+Time complexity : O((V+E) * (V+E));
+
+
+Now comes the efficent solution.
+
+if we think this graph as a tree so every vertex have some children obviously.
+
+0 -> 1 children
+1 -> 3 children
+2 -> 2 children
+3 -> 2 children
+
+so there's a simple logic :-
+
+if the vertex is the root and it has more than one children so it's a articulation point.
+
+let's say for ---------->    1
+			   = = =
+                          =  =  =
+                         =   =   =
+                        0    2    3
+                            =
+                           =
+                          =
+			 4
+
+
+Now just see the above tree and think if we remove the 1 vertex so will 0 be connected to 2 and 4 and 3 no.
+
+But this is only when the vertex is the root. We can't say this logic will work for child also.
+
+Because of back edges.
+https://www.youtube.com/watch?v=sAk4W8q0Rmw&t=1257s refer the link for full explanation.
+
+so let's say.
+
+          		 =  =1
+		     =     = = =
+                   =      =  =  =
+                 =       =   =   =
+(back edge)    =        0    2    3
+                =      =    =
+                 =    =    =
+                  =  =    =
+		    5	 4
+
+
+
+there's is an vertex 5 who has a back edge to 1 so now if i remove all edges of 1 so will the graph be unconnected no because 0 can traverse 1 from 5.
+
+
+So if a vertex u has a child v and none of it's childrens can reach to u the ancestor the childs of v so that v is a articulation point.
+
+
+Code is simple just writing some definations :-
+
+discovery array --> this is to record which vertex is visited when at what time in the dfs tree.
+low array --> this is to record from a vertex what is the other possible vertex reachable.
+
+time complexity : O(V+E) 
+
+
